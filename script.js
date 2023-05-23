@@ -69,13 +69,29 @@ const displayProducts = (filteredProducts) => {
 
 displayProducts(data)
 
+
 // display categories
 const setCategories = () => {
   const allCats = data.map(item => item.cat)
-  console.log(allCats)
+ const categories = ["All", ...allCats.filter((item, i) => {
+    return allCats.indexOf(item) === i
+  })]
+
+  categoriesContainer.innerHTML = categories.map(cat => 
+    `
+    <span class="cat">${cat}</span>
+    `
+    ).join("")
+
+    categoriesContainer.addEventListener("click", (e) => {
+      const selectedCat = e.target.textContent
+
+      selectedCat === "All" ? displayProducts(data) : displayProducts(data.filter((item) => item.cat === selectedCat))
+    })
 }
 
-displayCats(data)
+setCategories()
+
 
 // Search product
 const search = (e) => {
