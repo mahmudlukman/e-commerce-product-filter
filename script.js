@@ -92,7 +92,6 @@ const setCategories = () => {
 
 setCategories()
 
-
 // Search product
 const search = (e) => {
   const value = e.target.value.toLowerCase()
@@ -103,5 +102,23 @@ const search = (e) => {
     displayProducts(data)
   }
 }
+
+// set range prices
+const setPrices = () => {
+  const priceList = data.map((item) => item.price)
+  const minPrice = Math.min(...priceList)
+  const maxPrice = Math.max(...priceList)
+
+  priceRange.min = minPrice
+  priceRange.max = maxPrice
+  priceRange.value = maxPrice
+  priceValue.textContent = "$" + maxPrice
+
+  priceRange.addEventListener("input", (e) => {
+    priceValue.textContent = "$" + e.target.value
+    displayProducts(data.filter((item) => item.price <= e.target.value))
+  })
+}
+setPrices()
 
 searchInput.addEventListener("keyup", search)
